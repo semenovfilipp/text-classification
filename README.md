@@ -243,4 +243,4 @@ tensorboard --logdir logs/tensorboard
 
 ### Colab
 
-[`notebooks/experiments/colab_pipeline.ipynb`](notebooks/experiments/colab_pipeline.ipynb) клонирует ветку, подключает Google Drive и запускает все скрипты по порядку на GPU. `data/`, `models/`, `logs/` и `results/` хранятся на Drive в `MyDrive/text-classification/`, поэтому не пропадают при отключении сессии. Если в Colab Secrets задан `GITHUB_TOKEN`, ноутбук сам коммитит `results/metrics.csv` и `results/metrics_table.md` в ветку.
+[`notebooks/experiments/colab_pipeline.ipynb`](notebooks/experiments/colab_pipeline.ipynb) клонирует ветку, подключает Google Drive и запускает все скрипты по порядку на GPU. Токен Kaggle берётся из Colab Secrets (`KAGGLE_API_TOKEN` или `KAGGLE_USERNAME` + `KAGGLE_KEY`), в репозитории ключей нет. `data/`, `models/`, `logs/` и `results/` хранятся на Drive в `MyDrive/text-classification/`, поэтому не пропадают при отключении сессии. Если в Colab Secrets задан `GITHUB_TOKEN`, ноутбук сам коммитит `results/metrics.csv` и `results/metrics_table.md` в ветку.
