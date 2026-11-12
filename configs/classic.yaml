@@ -1,0 +1,80 @@
+base: configs/data.yaml
+
+clean: &clean
+  html_unescape: true
+  lowercase: true
+  urls: token
+  mentions: token
+  numbers: token
+  hashtags: strip
+  squeeze_repeats: true
+  remove_punct: true
+
+preprocessing:
+  raw: {html_unescape: false}
+  lower: {html_unescape: false, lowercase: true}
+  clean_punct: {<<: *clean, remove_punct: false}
+  clean: {<<: *clean}
+  clean_nostop: {<<: *clean, remove_stopwords: true}
+  clean_stem: {<<: *clean, normalize: stem}
+  clean_lemma: {<<: *clean, normalize: lemma}
+  clean_nostop_lemma: {<<: *clean, remove_stopwords: true, normalize: lemma}
+  clean_kw: {<<: *clean, use_keyword: true}
+  clean_kw_stem: {<<: *clean, use_keyword: true, normalize: stem}
+
+vectorizers:
+  bow:
+    type: bow
+    params: {ngram_range: [1, 2], min_df: 2, binary: true}
+  tfidf_word:
+    type: tfidf
+    params: {ngram_range: [1, 2], min_df: 2, sublinear_tf: true}
+  tfidf_word_5k:
+    type: tfidf
+    params: {ngram_range: [1, 2], min_df: 2, max_features: 5000, sublinear_tf: true}
+  tfidf_char:
+    type: tfidf
+    params: {analyzer: char_wb, ngram_range: [2, 5], min_df: 2, sublinear_tf: true}
+  tfidf_word_char:
+    type: tfidf_union
+    params:
+      word: {ngram_range: [1, 2], min_df: 2, sublinear_tf: true}
+      char: {analyzer: char_wb, ngram_range: [2, 5], min_df: 2, sublinear_tf: true}
+  w2v_own:
+    type: word2vec
+    params: {vector_size: 100, window: 5, min_count: 2, epochs: 30, sg: 1}
+  w2v_glove_twitter:
+    type: word2vec
+    params: {pretrained: data/external/glove-twitter-100.gz}
+
+models:
+  logreg:
+    type: logreg
+    params: {C: 3.0}
+  logreg_balanced:
+    type: logreg
+    params: {C: 3.0, class_weight: balanced}
+  linear_svc:
+    type: linear_svc
+    params: {C: 0.3}
+  catboost:
+    type: catboost
+    params: {iterations: 800, learning_rate: 0.05, depth: 6, thread_count: -1}
+
+experiments:
+  - name: preproc
+    preprocessing: all
+    vectorizer: tfidf_word
+    model: logreg
+  - name: vec
+    preprocessing: clean_kw
+    vectorizer: [bow, tfidf_char, tfidf_word_char, w2v_own, w2v_glove_twitter]
+    model: logreg
+  - name: head
+    preprocessing: clean_kw
+    vectorizer: tfidf_word_char
+    model: [logreg_balanced, linear_svc]
+  - name: boost
+    preprocessing: [clean, clean_kw]
+    vectorizer: [tfidf_word_5k, w2v_glove_twitter]
+    model: catboost

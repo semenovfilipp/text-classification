@@ -1,0 +1,36 @@
+base: configs/data.yaml
+device: auto
+embeddings_dir: data/embeddings
+
+preprocessing:
+  clean: {light_clean: true, use_keyword: false}
+  raw: {light_clean: false, use_keyword: false}
+  clean_kw: {light_clean: true, use_keyword: true}
+
+encoders:
+  minilm: {model_name: sentence-transformers/all-MiniLM-L6-v2, batch_size: 128}
+  bge_small: {model_name: BAAI/bge-small-en-v1.5, batch_size: 128}
+  bge_base: {model_name: BAAI/bge-base-en-v1.5, batch_size: 64}
+  e5_base: {model_name: intfloat/e5-base-v2, prefix: "query: ", batch_size: 64}
+  bge_large: {model_name: BAAI/bge-large-en-v1.5, batch_size: 64}
+  e5_large: {model_name: intfloat/e5-large-v2, prefix: "query: ", batch_size: 64}
+  qwen3_06b:
+    model_name: Qwen/Qwen3-Embedding-0.6B
+    prefix: "Instruct: Classify whether the tweet is about a real disaster\nQuery: "
+    batch_size: 32
+    max_seq_length: 128
+
+run_encoders: [minilm, bge_small, bge_base, e5_base]
+
+models:
+  logreg:
+    type: logreg
+    params: {C: 1.0}
+  logreg_c3:
+    type: logreg
+    params: {C: 3.0}
+  catboost:
+    type: catboost
+    params: {iterations: 800, learning_rate: 0.05, depth: 6, thread_count: -1}
+
+run_models: [logreg, logreg_c3, catboost]

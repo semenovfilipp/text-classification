@@ -1,0 +1,19 @@
+-e .
+pandas>=2.2
+numpy>=1.26
+scikit-learn>=1.5
+pyyaml>=6.0
+click>=8.1
+joblib>=1.4
+nltk>=3.9
+gensim>=4.3.3
+catboost>=1.2.7
+torch>=2.5
+transformers>=4.46
+sentence-transformers>=3.2
+accelerate>=1.0
+emoji>=2.12
+tensorboard>=2.17
+matplotlib>=3.9
+seaborn>=0.13
+jupyter

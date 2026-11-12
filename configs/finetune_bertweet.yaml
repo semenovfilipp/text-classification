@@ -1,0 +1,7 @@
+base: configs/finetune.yaml
+preprocessing:
+  light_clean: false
+finetune:
+  model_name: vinai/bertweet-base
+  tokenizer_kwargs: {normalization: true, use_fast: false}
+  max_length: 128

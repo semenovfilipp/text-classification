@@ -1,0 +1,5 @@
+base: configs/finetune.yaml
+finetune:
+  model_name: distilroberta-base
+  max_length: 64
+  epochs: 2
