@@ -26,8 +26,8 @@ def compute_metrics(y_true, scores, threshold=0.5):
     }
 
 
-def best_threshold(y_true, scores):
-    grid = np.unique(np.quantile(scores, np.linspace(0.05, 0.95, 181)))
+def best_threshold(y_true, scores, threshold=0.5):
+    grid = np.unique(np.append(np.quantile(scores, np.linspace(0.05, 0.95, 181)), threshold))
     f1s = [f1_score(y_true, (scores >= t).astype(int)) for t in grid]
     i = int(np.argmax(f1s))
     return float(grid[i]), float(f1s[i])
@@ -35,7 +35,7 @@ def best_threshold(y_true, scores):
 
 def evaluate(y_true, scores, threshold=0.5):
     m = compute_metrics(y_true, scores, threshold)
-    m["tuned_thr"], m["f1_tuned_thr"] = best_threshold(np.asarray(y_true), np.asarray(scores))
+    m["tuned_thr"], m["f1_tuned_thr"] = best_threshold(np.asarray(y_true), np.asarray(scores), threshold)
     return m
 
 
