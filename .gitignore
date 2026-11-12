@@ -1,0 +1,16 @@
+*.pyc
+.ipynb_checkpoints/
+.kaggle/
+.venv/
+__pycache__/
+data/embeddings/
+data/external/
+data/processed/
+data/raw/
+kaggle.json
+logs/
+models/
+outputs/
+results/metrics_debug.csv
+results/submissions/
+*.egg-info/
