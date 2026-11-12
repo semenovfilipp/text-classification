@@ -1,0 +1,16 @@
+seed: 42
+data:
+  raw_dir: data/raw
+  processed_dir: data/processed
+  version: v1
+  val_size: 0.2
+  dedup: true
+paths:
+  models_dir: models
+  logs_dir: logs
+results:
+  metrics_path: results/metrics.csv
+  submissions_dir: results/submissions
+save_submission: true
+save_model: true
+debug_subsample: null

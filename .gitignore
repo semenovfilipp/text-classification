@@ -8,8 +8,8 @@ data/external/
 data/processed/
 data/raw/
 kaggle.json
-logs/
-models/
+/logs/
+/models/
 outputs/
 results/metrics_debug.csv
 results/submissions/

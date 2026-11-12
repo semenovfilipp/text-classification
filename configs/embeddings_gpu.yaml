@@ -1,0 +1,4 @@
+base: configs/embeddings.yaml
+preprocessing:
+  clean: {light_clean: true, use_keyword: false}
+run_encoders: [bge_large, e5_large, qwen3_06b]

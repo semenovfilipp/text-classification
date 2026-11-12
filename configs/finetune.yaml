@@ -1,0 +1,20 @@
+base: configs/data.yaml
+report_to: [tensorboard]
+
+preprocessing:
+  light_clean: true
+  use_keyword: false
+  clean_kwargs: {url_token: http, user_token: "@user"}
+
+finetune:
+  model_name: cardiffnlp/twitter-roberta-base
+  max_length: 96
+  lr: 2.0e-5
+  epochs: 4
+  batch_size: 32
+  warmup_ratio: 0.1
+  weight_decay: 0.01
+  scheduler: linear
+  patience: 2
+  fp16: true
+  logging_steps: 20
